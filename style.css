@@ -1,0 +1,140 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins");
+body {
+  font-family: "Poppins", "Helvetica Neue", helvetica, Arial, sans-serif;
+  background-color: #f5f5f7;
+  margin: 0;
+  padding: 0;
+}
+
+header h1 {
+  background-color: #6b4eff;
+  color: white;
+  text-align: center;
+  padding: 16px;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+p,
+label {
+  font-size: 16px;
+  text-align: center;
+}
+
+input[type="checkbox"] {
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
+.slider {
+  width: 60px;
+  height: 34px;
+  background-color: #ccc;
+  border-radius: 34px;
+  position: relative;
+  margin-top: 8px;
+}
+
+.slider:before {
+  content: "";
+  height: 26px;
+  width: 26px;
+  border-radius: 50%;
+  background-color: white;
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  transition: all 0.2s;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  margin-left: 10px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: all 0.2s;
+}
+
+.switch .slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: all 0.2s;
+  border-radius: 50%;
+}
+
+.switch input:checked + .slider {
+  background-color: #4caf50;
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+form {
+  margin-top: 20px;
+  text-align: center;
+}
+
+input[type="time"] {
+  font-size: 18px;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin: 0 10px;
+  width: 200px;
+  height: 34px;
+  line-height: 34px;
+  text-align: center;
+}
+
+input[type="submit"] {
+  background-color: #6b4eff;
+  border: none;
+  color: white;
+  padding: 12px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 18px;
+  margin-top: 20px;
+  cursor: pointer;
+  border-radius: 4px;
+}
