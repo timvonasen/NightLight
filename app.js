@@ -4,7 +4,7 @@ const express = require("express");
 const sql = require("mssql");
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = 3000;
 
 require("dotenv").config();
 
@@ -39,26 +39,33 @@ app.get("/db", (req, res) => {
 
     // create Request object
     var request = new sql.Request();
+    console.log(request);
 
     // query to the database and get the records
     request.query(
-      "SELECT TOP (1000) * FROM [dbo].[testDevice]",
+      "SELECT TOP 10 SensorValue, LightState, EventProcessedUtcTime FROM [dbo].[NachtlichtTabelle] ORDER BY EventProcessedUtcTime DESC;",
       function (err, recordset) {
-        if (err) console.log(err);
+        if (err) {
+          console.log(err);
+          console.log(
+            "Error while queryinasdjkfhjioasduhifiasfasdg database :- " + err
+          );
+        }
+
         res.status(200).json(recordset);
       }
     );
   });
 });
 
-//POST API
-app.post("/sendMessage", (req, res) => {
+//POST API OFF
+app.post("/sendMessageOff", (req, res) => {
   var Client = require("azure-iothub").Client;
   var Message = require("azure-iot-common").Message;
 
   var connectionString =
-    "HostName=iot-hub-ys.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=niYzPywhaM6SREd8skteZt9qopH1MB8dCZL70Dvtu/c=";
-  var targetDevice = "storageDevice";
+    "HostName=AnTiFa-AntonTimFalcon.azure-devices.net;DeviceId=iot-device-1;SharedAccessKey=PLrU1ZleWnyOEEy0/mNBTrA8/qup9XcNMmQ25GihWX8=";
+  var targetDevice = "iot-device-1";
 
   var client = Client.fromConnectionString(connectionString);
 
@@ -69,7 +76,7 @@ app.post("/sendMessage", (req, res) => {
       console.log("Client connected");
 
       // Create a message and send it to the IoT Hub every second
-      var data = JSON.stringify({ text: "food123456" });
+      var data = JSON.stringify({ lightState: false });
       var message = new Message(data);
       console.log("Sending message: " + message.getData());
       client.send(targetDevice, message, printResultFor("send"));
@@ -87,4 +94,43 @@ app.post("/sendMessage", (req, res) => {
       }
     };
   }
+});
+
+//POST API ON
+app.post("/toggleLight", (req, res) => {
+  var Client = require("azure-iothub").Client;
+  var Message = require("azure-iot-common").Message;
+
+  var connectionString =
+    "HostName=AnTiFa-AntonTimFalcon.azure-devices.net;DeviceId=iot-device-1;SharedAccessKey=PLrU1ZleWnyOEEy0/mNBTrA8/qup9XcNMmQ25GihWX8=";
+
+  var targetDevice = "iot-device-1";
+
+  var client = Client.fromConnectionString(connectionString);
+
+  client.open(function (err) {
+    if (err) {
+      console.error("Could not connect: " + err.message);
+      res.status(500).send("Could not connect: " + err.message);
+      return;
+    }
+
+    console.log("Client connected");
+
+    // Send a structured message to the IoT device
+    // This is now modified to send 0 or 1
+    var data = JSON.stringify({ ledStatus: req.body.ledStatus ? 1 : 0 });
+    var message = new Message(data);
+    console.log("Sending message: " + message.getData());
+
+    client.send(targetDevice, message, function (err) {
+      if (err) {
+        console.log("Error sending message: " + err);
+        res.status(500).send("Error sending message: " + err);
+      } else {
+        console.log("Message sent successfully");
+        res.status(200).send("Message sent successfully");
+      }
+    });
+  });
 });
