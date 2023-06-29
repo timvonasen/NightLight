@@ -47,9 +47,6 @@ app.get("/db", (req, res) => {
       function (err, recordset) {
         if (err) {
           console.log(err);
-          console.log(
-            "Error while queryinasdjkfhjioasduhifiasfasdg database :- " + err
-          );
         }
 
         res.status(200).json(recordset);
@@ -58,51 +55,13 @@ app.get("/db", (req, res) => {
   });
 });
 
-/* //POST API OFF
-app.post("/sendMessageOff", (req, res) => {
-  var Client = require("azure-iothub").Client;
-  var Message = require("azure-iot-common").Message;
-
-  var connectionString =
-    "HostName=AnTiFa-AntonTimFalcon.azure-devices.net;DeviceId=iot-device-1;SharedAccessKey=PLrU1ZleWnyOEEy0/mNBTrA8/qup9XcNMmQ25GihWX8=";
-  var targetDevice = "iot-device-1";
-
-  var client = Client.fromConnectionString(connectionString);
-
-  client.open(function (err) {
-    if (err) {
-      console.error("Could not connect: " + err.message);
-    } else {
-      console.log("Client connected");
-
-      // Create a message and send it to the IoT Hub every second
-      var data = JSON.stringify({ lightState: false });
-      var message = new Message(data);
-      console.log("Sending message: " + message.getData());
-      client.send(targetDevice, message, printResultFor("send"));
-    }
-  });
-
-  // Helper function to print results in the console
-  function printResultFor(op) {
-    return function printResult(err, resLokal) {
-      if (err) {
-        console.log(op + " error: " + err.toString());
-      } else {
-        console.log(op + " status: " + resLokal.constructor.name);
-        res.status(201).json(op + " status: " + resLokal.constructor.name);
-      }
-    };
-  }
-}); */
-
 //POST API
 app.post("/toggleLight", (req, res) => {
   var Client = require("azure-iothub").Client;
   var Message = require("azure-iot-common").Message;
 
   var connectionString =
-    "HostName=AnTiFa-AntonTimFalcon.azure-devices.net;DeviceId=iot-device-1;SharedAccessKey=PLrU1ZleWnyOEEy0/mNBTrA8/qup9XcNMmQ25GihWX8=";
+    "HostName=AnTiFa-AntonTimFalcon.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=MfGwLbUQEsVPvMI2y850+eLarEsEcIhbviBB82hnqjg=";
 
   var targetDevice = "iot-device-1";
 
@@ -119,8 +78,11 @@ app.post("/toggleLight", (req, res) => {
 
     // Send a structured message to the IoT device
     // This is now modified to send 0 or 1
-    var data = JSON.stringify({ ledStatus: req.body.ledStatus ? 1 : 0 });
+
+    var data = JSON.stringify({ LightState: 1 });
+
     var message = new Message(data);
+
     console.log("Sending message: " + message.getData());
 
     client.send(targetDevice, message, function (err) {
