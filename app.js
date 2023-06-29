@@ -58,7 +58,7 @@ app.get("/db", (req, res) => {
   });
 });
 
-//POST API OFF
+/* //POST API OFF
 app.post("/sendMessageOff", (req, res) => {
   var Client = require("azure-iothub").Client;
   var Message = require("azure-iot-common").Message;
@@ -94,9 +94,9 @@ app.post("/sendMessageOff", (req, res) => {
       }
     };
   }
-});
+}); */
 
-//POST API ON
+//POST API
 app.post("/toggleLight", (req, res) => {
   var Client = require("azure-iothub").Client;
   var Message = require("azure-iot-common").Message;
