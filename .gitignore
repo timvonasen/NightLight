@@ -56,3 +56,4 @@ jspm_packages
 *.sublime-project
 *.sublime-workspace
 .vscode/
+.DS_Store
